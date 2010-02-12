@@ -350,32 +350,6 @@ namespace L2DatEncDec
                                 FType.SetValue(item, Convert.ToSingle(TmpStr[j]));
                             else if (FType.FieldType.FullName.EndsWith("Color"))
                                 FType.SetValue(item, LmUtils.ConvertUtilities.HtmlColorToColor(TmpStr[j]));
-                            else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
-                            {
-                                FILLER_360 tmpMtx = new FILLER_360();
-                                string[] TmpStr2 = new string[tmpMtx.getFieldCount()];
-                                for (int k = 0; k < tmpMtx.getFieldCount(); k++)
-                                {
-                                    TmpStr2[k] = TmpStr[j];
-                                    if (k < tmpMtx.getFieldCount() - 1)
-                                        j++;
-                                }
-                                tmpMtx.setText(TmpStr2);
-                                FType.SetValue(item, tmpMtx);
-                            }
-                            else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
-                            {
-                                FILLER_90 tmpMtx = new FILLER_90();
-                                string[] TmpStr2 = new string[tmpMtx.getFieldCount()];
-                                for (int k = 0; k < tmpMtx.getFieldCount(); k++)
-                                {
-                                    TmpStr2[k] = TmpStr[j];
-                                    if (k < tmpMtx.getFieldCount() - 1)
-                                        j++;
-                                }
-                                tmpMtx.setText(TmpStr2);
-                                FType.SetValue(item, tmpMtx);
-                            }
                             else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                             {
                                 CNTINT_PAIR tmpMtx = new CNTINT_PAIR();
@@ -498,6 +472,18 @@ namespace L2DatEncDec
                                 tmpStr2.Text = TmpStr[j];
                                 FType.SetValue(item, tmpStr2);
                             }
+                            else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                            {
+                                FILLER_360 tmpStr2 = new FILLER_360();
+                                tmpStr2.Text = TmpStr[j];
+                                FType.SetValue(item, tmpStr2);
+                            }
+                            else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                            {
+                                FILLER_90 tmpStr2 = new FILLER_90();
+                                tmpStr2.Text = TmpStr[j];
+                                FType.SetValue(item, tmpStr2);
+                            }
                             else
                                 FType.SetValue(item, TmpStr[j]);
                         }
@@ -566,19 +552,7 @@ namespace L2DatEncDec
                         FName = this.DatInfo.getFieldNames()[i];
                         FieldInfo FType = this.DatInfo.getDefinition().GetType().GetField(FName);
                         if (FType == null) continue;
-                        if (FType.FieldType.FullName.EndsWith("FILLER_360"))
-                        {
-                            String TmpStr = ((FILLER_360)FType.GetValue(info)).getHeaderText(FName);
-                            sr.Write(TmpStr);
-                            continue;
-                        }
-                        else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
-                        {
-                            String TmpStr = ((FILLER_90)FType.GetValue(info)).getHeaderText(FName);
-                            sr.Write(TmpStr);
-                            continue;
-                        }
-                        else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
+                        if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                         {
                             String TmpStr = ((CNTINT_PAIR)FType.GetValue(info)).getHeaderText(FName);
                             sr.Write(TmpStr);
@@ -651,18 +625,6 @@ namespace L2DatEncDec
                             {
                                 if (FType.FieldType.FullName.EndsWith("Color"))
                                     TmpStr = LmUtils.ConvertUtilities.ColorToHtmlColor((Color)FType.GetValue(info));
-                                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
-                                {
-                                    TmpStr = ((FILLER_360)FType.GetValue(info)).getText();
-                                    sr.Write(TmpStr);
-                                    continue;
-                                }
-                                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
-                                {
-                                    TmpStr = ((FILLER_90)FType.GetValue(info)).getText();
-                                    sr.Write(TmpStr);
-                                    continue;
-                                }
                                 else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                                 {
                                     TmpStr = ((CNTINT_PAIR)FType.GetValue(info)).getText();
@@ -717,6 +679,10 @@ namespace L2DatEncDec
                                     TmpStr = ((HEX)FType.GetValue(info)).Text;
                                 else if (FType.FieldType.FullName.EndsWith("UNICODE"))
                                     TmpStr = ((UNICODE)FType.GetValue(info)).Text;
+                                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                                    TmpStr = ((FILLER_360)FType.GetValue(info)).Text;
+                                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                                    TmpStr = ((FILLER_90)FType.GetValue(info)).Text;
                                 else
                                     TmpStr = FType.GetValue(info).ToString();
                             }

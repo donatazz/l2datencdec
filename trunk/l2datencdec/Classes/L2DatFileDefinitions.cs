@@ -62,10 +62,6 @@ namespace L2DatEncDec.Definitions
                     {
                         if (FType.FieldType.FullName.EndsWith("Color"))
                             TmpStr = LmUtils.ConvertUtilities.ColorToHtmlColor((Color)FType.GetValue(this));
-                        else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
-                            TmpStr = ((FILLER_360)FType.GetValue(this)).getText();
-                        else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
-                            TmpStr = ((FILLER_90)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                             TmpStr = ((CNTINT_PAIR)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("CNTRINT_PAIR"))
@@ -88,6 +84,10 @@ namespace L2DatEncDec.Definitions
                             TmpStr = ((ASCF)FType.GetValue(this)).Text;
                         else if (FType.FieldType.FullName.EndsWith("HEX"))
                             TmpStr = ((HEX)FType.GetValue(this)).Text;
+                        else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                            TmpStr = ((FILLER_360)FType.GetValue(this)).Text;
+                        else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                            TmpStr = ((FILLER_90)FType.GetValue(this)).Text;
                         else
                             TmpStr = FType.GetValue(this).ToString();
                     }
@@ -448,7 +448,7 @@ namespace L2DatEncDec.Definitions
         public UNICODE hair_tab; //[300]
         public CNTTXT_PAIR face_mesh;
         public CNTTXT_PAIR face_tex;
-        public FILLER_360 filler_361;
+        public FILLER_360 filler_360;
         public CNTTXT_PAIR glove_mesh;
         public CNTTXT_PAIR glove_tex;
         public CNTTXT_PAIR glove_mesh_add;
@@ -473,7 +473,7 @@ namespace L2DatEncDec.Definitions
         public CNTTXT_PAIR boot_tex_add;
         public CNTRINT_PAIR boot_tab; //UCHAR
         public CNTRINT_PAIR boot_tab2; //UCHAR
-        public FILLER_90 filler_91;
+        public FILLER_90 filler_90;
         public UNICODE attack_eff;
         public UINT walkanimframe;
         public UINT cnt_att;

@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,8 @@ namespace L2DatEncDec.Parsers
         ChaoticThrone1,
         ChaoticThrone1Plus,
         ChaoticThrone2,
-        ChaoticThrone3
+        ChaoticThrone3,
+        GraciaEpilogue
     }
 
     public enum DatFileType
@@ -37,10 +38,12 @@ namespace L2DatEncDec.Parsers
         Creditgrp,
         Entereventgrp,
         Etcitemgrp,
+        //Eula,
         GameTip,
         Hairaccessorylocgrp,
         Hennagrp,
         HuntingZone,
+        //InstantZoneData,
         ItemName,
         Mobskillanimgrp,
         MusicInfo,
@@ -48,9 +51,12 @@ namespace L2DatEncDec.Parsers
         NpcName,
         Obscene,
         OptiondataClient,
+        //ProductName,
         QuestName,
         RaidData,
         Recipe,
+        //RideData,
+        //ScenePlayerData,
         ServerName,
         ShortcutAlias,
         Skillgrp,
@@ -62,6 +68,7 @@ namespace L2DatEncDec.Parsers
         SystemMsg,
         TransformData,
         Variationeffectgrp,
+        //Vehiclepartsgrp,
         Weapongrp,
         ZoneName
     }
@@ -170,6 +177,8 @@ namespace L2DatEncDec.Parsers
                     FType.SetValue(info, CNTTXT_PAIR.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("CNTTXT_PAIR2"))
                     FType.SetValue(info, CNTTXT_PAIR2.Parse(f));
+                else if (FType.FieldType.FullName.EndsWith("CNTASCF_PAIR"))
+                    FType.SetValue(info, CNTASCF_PAIR.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("MTX"))
                     FType.SetValue(info, MTX.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("MTX2"))
@@ -273,6 +282,8 @@ namespace L2DatEncDec.Parsers
                     CNTTXT_PAIR.Compile(f, (CNTTXT_PAIR)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("CNTTXT_PAIR2"))
                     CNTTXT_PAIR2.Compile(f, (CNTTXT_PAIR2)FType.GetValue(item));
+                else if (FType.FieldType.FullName.EndsWith("CNTASCF_PAIR"))
+                    CNTASCF_PAIR.Compile(f, (CNTASCF_PAIR)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("MTX"))
                     MTX.Compile(f, (MTX)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("MTX2"))
@@ -793,6 +804,8 @@ namespace L2DatEncDec.Parsers
             else
                 info = (NpcgrpInfo)base.ReadFieldValue(f, info, "UNK_1_OLD", "level_lim_up");
             info = (NpcgrpInfo)base.ReadFieldValue(f, info, "effect", "class_lim");
+            if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                info = (NpcgrpInfo)base.ReadFieldValue(f, info, "npcend");
             return info;
         }
 
@@ -816,6 +829,8 @@ namespace L2DatEncDec.Parsers
             else
                 base.WriteFieldValue(f, info, "UNK_1_OLD", "level_lim_up");
             base.WriteFieldValue(f, info, "effect", "class_lim");
+            if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                base.WriteFieldValue(f, info, "npcend");
         }
     }
 
@@ -998,7 +1013,10 @@ namespace L2DatEncDec.Parsers
                 info = (SkillgrpInfo_CT1)base.ReadFieldValue(f, info, "skill_id", "skill_level");
                 if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1Plus)
                     info = (SkillgrpInfo_CT1)base.ReadFieldValue(f, info, "UNK_0");
-                info = (SkillgrpInfo_CT1)base.ReadFieldValue(f, info, "oper_type", "UNK_3");
+                info = (SkillgrpInfo_CT1)base.ReadFieldValue(f, info, "oper_type", "hp_consume");
+                if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                    info = (SkillgrpInfo_CT1)base.ReadFieldValue(f, info, "skill_bonus_type");
+                info = (SkillgrpInfo_CT1)base.ReadFieldValue(f, info, "UNK_1", "UNK_3");
                 ret = info;
             }
             else
@@ -1020,7 +1038,10 @@ namespace L2DatEncDec.Parsers
                 base.WriteFieldValue(f, info, "skill_id", "skill_level");
                 if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1Plus)
                     base.WriteFieldValue(f, info, "UNK_0");
-                base.WriteFieldValue(f, info, "oper_type", "UNK_3");
+                base.WriteFieldValue(f, info, "oper_type", "hp_consume");
+                if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                    base.WriteFieldValue(f, info, "skill_bonus_type");
+                base.WriteFieldValue(f, info, "UNK_1", "UNK_3");
             }
             else
             {
@@ -1286,7 +1307,12 @@ namespace L2DatEncDec.Parsers
             }
             if (Program.main_form.selectedDatVersion >= DatVersion.Interlude)
             {
-                info = (WeapongrpInfo)base.ReadFieldValue(f, info, "junk3_1", "icons4");
+                info = (WeapongrpInfo)base.ReadFieldValue(f, info, "junk3_1", "junk3_4");
+                if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                {
+                    info = (WeapongrpInfo)base.ReadFieldValue(f, info, "junk3_5", "junk3_6");
+                }
+                info = (WeapongrpInfo)base.ReadFieldValue(f, info, "icons1", "icons4");
             }
             return info;
         }
@@ -1361,7 +1387,12 @@ namespace L2DatEncDec.Parsers
             }
             if (Program.main_form.selectedDatVersion >= DatVersion.Interlude)
             {
-                base.WriteFieldValue(f, info, "junk3_1", "icons4");
+                base.WriteFieldValue(f, info, "junk3_1", "junk3_4");
+                if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                {
+                    base.WriteFieldValue(f, info, "junk3_5", "junk3_6");
+                }
+                base.WriteFieldValue(f, info, "icons1", "icons4");
             }
         }
     }

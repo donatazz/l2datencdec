@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 
 using System;
 using System.Collections.Generic;
@@ -70,6 +70,8 @@ namespace L2DatEncDec.Definitions
                             TmpStr = ((CNTTXT_PAIR)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("CNTTXT_PAIR2"))
                             TmpStr = ((CNTTXT_PAIR2)FType.GetValue(this)).getText();
+                        else if (FType.FieldType.FullName.EndsWith("CNTASCF_PAIR"))
+                            TmpStr = ((CNTASCF_PAIR)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("MTX"))
                             TmpStr = ((MTX)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("MTX2"))
@@ -941,6 +943,7 @@ namespace L2DatEncDec.Definitions
         public FLOAT sound_rnd;
         public UINT quest_be;
         public UINT class_lim;
+        public CNTASCF_PAIR npcend;
     }
 
     #endregion
@@ -1151,6 +1154,7 @@ namespace L2DatEncDec.Definitions
         public UINT is_ench;
         public UINT ench_skill_id;
         public UINT hp_consume;
+        public ASCF skill_bonus_type;
         public INT UNK_1;
         public INT UNK_2;
         public INT UNK_3;
@@ -1455,6 +1459,8 @@ namespace L2DatEncDec.Definitions
         public INT junk3_2;
         public INT junk3_3;
         public INT junk3_4;
+        public INT junk3_5;
+        public INT junk3_6;
         public UNICODE icons1;
         public UNICODE icons2;
         public UNICODE icons3;

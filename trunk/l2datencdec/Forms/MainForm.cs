@@ -177,7 +177,7 @@ namespace L2DatEncDec
                 // Not Support
                 this.SaveBtn.Enabled = false;
                 this.ImpBtn.Enabled = false;
-                if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1)
+                if ((Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1) && (Program.main_form.selectedDatVersion < DatVersion.GraciaEpilogue))
                 {
                     this.ExpBtn.Enabled = false;
                     this.LoadBtn.Enabled = false;
@@ -402,6 +402,19 @@ namespace L2DatEncDec
                                 tmpMtx.setText(TmpStr2);
                                 FType.SetValue(item, tmpMtx);
                             }
+                            else if (FType.FieldType.FullName.EndsWith("CNTASCF_PAIR"))
+                            {
+                                CNTASCF_PAIR tmpMtx = new CNTASCF_PAIR();
+                                string[] TmpStr2 = new string[tmpMtx.getFieldCount()];
+                                for (int k = 0; k < tmpMtx.getFieldCount(); k++)
+                                {
+                                    TmpStr2[k] = TmpStr[j];
+                                    if (k < tmpMtx.getFieldCount() - 1)
+                                        j++;
+                                }
+                                tmpMtx.setText(TmpStr2);
+                                FType.SetValue(item, tmpMtx);
+                            }
                             else if (FType.FieldType.FullName.EndsWith("MTX"))
                             {
                                 MTX tmpMtx = new MTX();
@@ -551,6 +564,12 @@ namespace L2DatEncDec
                             sr.Write(TmpStr);
                             continue;
                         }
+                        else if (FType.FieldType.FullName.EndsWith("CNTASCF_PAIR"))
+                        {
+                            String TmpStr = ((CNTASCF_PAIR)FType.GetValue(info)).getHeaderText(FName);
+                            sr.Write(TmpStr);
+                            continue;
+                        }
                         else if (FType.FieldType.FullName.EndsWith("MTX"))
                         {
                             String TmpStr = ((MTX)FType.GetValue(info)).getHeaderText(FName);
@@ -615,6 +634,12 @@ namespace L2DatEncDec
                                 else if (FType.FieldType.FullName.EndsWith("CNTTXT_PAIR2"))
                                 {
                                     TmpStr = ((CNTTXT_PAIR2)FType.GetValue(info)).getText();
+                                    sr.Write(TmpStr);
+                                    continue;
+                                }
+                                else if (FType.FieldType.FullName.EndsWith("CNTASCF_PAIR"))
+                                {
+                                    TmpStr = ((CNTASCF_PAIR)FType.GetValue(info)).getText();
                                     sr.Write(TmpStr);
                                     continue;
                                 }

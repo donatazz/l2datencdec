@@ -332,7 +332,7 @@ namespace L2DatEncDec.Parsers
             else
                 return new ArmorgrpInfo();
         }
-        
+
         public override L2DatDefinition ParseMain(BinaryReader f, int RecNo)
         {
             L2DatDefinition ret = new L2DatDefinition();
@@ -550,7 +550,7 @@ namespace L2DatEncDec.Parsers
     }
 
     #endregion
-    
+
     #region Entereventgrp
 
     public class Entereventgrp : L2DatParser
@@ -576,7 +576,7 @@ namespace L2DatEncDec.Parsers
             else
                 return new EtcitemgrpInfo();
         }
-        
+
         public override L2DatDefinition ParseMain(BinaryReader f, int RecNo)
         {
             L2DatDefinition ret = new L2DatDefinition();
@@ -688,7 +688,7 @@ namespace L2DatEncDec.Parsers
     #region ItemName
 
     public class ItemName : L2DatParser
-	{
+    {
         public override L2DatDefinition getDefinition()
         {
             if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone3)
@@ -698,7 +698,7 @@ namespace L2DatEncDec.Parsers
         }
 
         public override L2DatDefinition ParseMain(BinaryReader f, int RecNo)
-		{
+        {
             L2DatDefinition ret = new L2DatDefinition();
             if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone3)
             {
@@ -720,7 +720,7 @@ namespace L2DatEncDec.Parsers
         }
 
         public override void CompileMain(BinaryWriter f, List<L2DatDefinition> infos, int RecNo)
-		{
+        {
             if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone3)
             {
                 ItemNameInfo_CT3 info = (ItemNameInfo_CT3)infos[RecNo];
@@ -736,9 +736,9 @@ namespace L2DatEncDec.Parsers
                     base.WriteFieldValue(f, info, "UNK2");
             }
         }
-	}
+    }
 
-	#endregion
+    #endregion
 
     #region Mobskillanimgrp
 

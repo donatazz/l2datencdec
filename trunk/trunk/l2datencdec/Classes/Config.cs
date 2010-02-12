@@ -21,18 +21,17 @@ using LmUtils;
 
 namespace L2DatEncDec
 {
-	public class Config : LmUtils.Config
-	{
-		#region Constructors, destructor...
+    public class Config : LmUtils.Config
+    {
+        #region Constructors, destructor...
 
-		public Config ()
-			: base ("Config.xml")
-		{
-		}
+        public Config() : base("Config.xml")
+        {
+        }
 
-		#endregion
-		private const string Category_Global = "Global parameters";
-		private const string Category_LineAge = "LineAge";
+        #endregion
+        private const string Category_Global = "Global parameters";
+        private const string Category_LineAge = "LineAge";
 
         #region Save, load and defaults
 
@@ -64,32 +63,32 @@ namespace L2DatEncDec
 
         #endregion
 
-		#region Global
+        #region Global
 
-		[DisplayName ("Log history"), Description ("Amount of last logs to store"), Category (Category_Global), DefaultValue (30)]
-		public int LogHistory
-		{
-			get
-			{
-				try
-				{
-					return Convert.ToInt32(this.xml["Global.LogHistory"]);
-				}
-				catch
-				{
-					return (int)this.GetDefault("LogHistory");
-				}
-			}
-			set
-			{
-				this.xml["Global.LogHistory"] = value.ToString();
+        [DisplayName("Log history"), Description("Amount of last logs to store"), Category(Category_Global), DefaultValue(30)]
+        public int LogHistory
+        {
+            get
+            {
+                try
+                {
+                    return Convert.ToInt32(this.xml["Global.LogHistory"]);
+                }
+                catch
+                {
+                    return (int)this.GetDefault("LogHistory");
+                }
+            }
+            set
+            {
+                this.xml["Global.LogHistory"] = value.ToString();
 
-				if (this.inited)
-				{
-					Program.log.LogHistory = value;
-				}
-			}
-		}
+                if (this.inited)
+                {
+                    Program.log.LogHistory = value;
+                }
+            }
+        }
 
         [DisplayName("Text Encoding"), Description("Encoding of read and written text file"), Category(Category_Global), DefaultValue("utf-8")]
         public string TextEncoding
@@ -133,88 +132,88 @@ namespace L2DatEncDec
 
         [DisplayName("Chronicle Setting"), Description("Setting of Chronicle Version"), Category(Category_Global), DefaultValue(6)]
         public int ChronicleSetting
-		{
-			get
-			{
-				try
-				{
+        {
+            get
+            {
+                try
+                {
                     return Convert.ToInt32(this.xml["Global.ChronicleSetting"]);
-				}
-				catch
-				{
+                }
+                catch
+                {
                     return (int)this.GetDefault("ChronicleSetting");
-				}
-			}
-			set
-			{
+                }
+            }
+            set
+            {
                 this.xml["Global.ChronicleSetting"] = value.ToString();
-			}
-		}
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region LineAge
+        #region LineAge
 
-		[DisplayName ("LineAge directory"), Description ("Directory where LineAge installed"), Category (Category_LineAge), DefaultValue ("")]
-		public string LineAgeDirectory
-		{
-			get
-			{
-				try
-				{
-					return this.xml["LineAge.Directory"];
-				}
-				catch
-				{
-					return (string) this.GetDefault ("LineAgeDirectory");
-				}
-			}
-			set
-			{
-				this.xml["LineAge.Directory"] = value;
-			}
-		}
+        [DisplayName("LineAge directory"), Description("Directory where LineAge installed"), Category(Category_LineAge), DefaultValue("")]
+        public string LineAgeDirectory
+        {
+            get
+            {
+                try
+                {
+                    return this.xml["LineAge.Directory"];
+                }
+                catch
+                {
+                    return (string)this.GetDefault("LineAgeDirectory");
+                }
+            }
+            set
+            {
+                this.xml["LineAge.Directory"] = value;
+            }
+        }
 
-		[DisplayName ("Save BAK files"), Description ("Set to 'True' if you want program to save bak-files on each save"), Category (Category_LineAge), DefaultValue (true)]
-		public bool LineAgeSaveBakFiles
-		{
-			get
-			{
-				try
-				{
-					return Convert.ToBoolean (this.xml["LineAge.SaveBakFiles"]);
-				}
-				catch
-				{
-					return (bool) this.GetDefault ("LineAgeSaveBakFiles");
-				}
-			}
-			set
-			{
-				this.xml["LineAge.SaveBakFiles"] = value.ToString ();
-			}
-		}
+        [DisplayName("Save BAK files"), Description("Set to 'True' if you want program to save bak-files on each save"), Category(Category_LineAge), DefaultValue(true)]
+        public bool LineAgeSaveBakFiles
+        {
+            get
+            {
+                try
+                {
+                    return Convert.ToBoolean(this.xml["LineAge.SaveBakFiles"]);
+                }
+                catch
+                {
+                    return (bool)this.GetDefault("LineAgeSaveBakFiles");
+                }
+            }
+            set
+            {
+                this.xml["LineAge.SaveBakFiles"] = value.ToString();
+            }
+        }
 
         [DisplayName("Encrypt after save"), Description("Encrypt files with specified parameters after save (set to empty string to disable encryption after save). Se l2encdec documentation for more info. Example: -h 413"), Category(Category_LineAge), DefaultValue("-h 413")]
-		public string LineAge_EncryptParameters
-		{
-			get
-			{
-				try
-				{
-					return this.xml["LineAge.EncryptParameters"];
-				}
-				catch
-				{
-					return (string) this.GetDefault ("LineAge_EncryptParameters");
-				}
-			}
-			set
-			{
-				this.xml["LineAge.EncryptParameters"] = value;
-			}
-		}
+        public string LineAge_EncryptParameters
+        {
+            get
+            {
+                try
+                {
+                    return this.xml["LineAge.EncryptParameters"];
+                }
+                catch
+                {
+                    return (string)this.GetDefault("LineAge_EncryptParameters");
+                }
+            }
+            set
+            {
+                this.xml["LineAge.EncryptParameters"] = value;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

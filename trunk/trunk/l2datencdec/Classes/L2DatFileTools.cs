@@ -16,112 +16,110 @@ namespace L2DatEncDec.Tools
     #region L2EncDec
 
     public class L2EncDec
-	{
-		public static BinaryReader Decrypt (string fname, Encoding enc)
-		{
-			Process process_decoder = new Process();
-			string decoder_output = "";
+    {
+        public static BinaryReader Decrypt(string fname, Encoding enc)
+        {
+            Process process_decoder = new Process();
+            string decoder_output = "";
 
-			string fname_encoded = Path.Combine(Program.config.LineAgeDirectory, fname);
-			string fname_decoded = Path.GetTempFileName();
+            string fname_encoded = Path.Combine(Program.config.LineAgeDirectory, fname);
+            string fname_decoded = Path.GetTempFileName();
 
-			try
-			{
+            try
+            {
                 process_decoder.StartInfo.FileName = Path.Combine(LmUtils.GlobalUtilities.GetStartDirectory(false), @"l2encdec\l2encdec.exe");
-				process_decoder.StartInfo.UseShellExecute = false;
-				process_decoder.StartInfo.CreateNoWindow = true;
-				process_decoder.StartInfo.RedirectStandardOutput = true;
-				process_decoder.StartInfo.Arguments = String.Format("-s \"{0}\" \"{1}\"", fname_encoded, fname_decoded);
-				process_decoder.Start();
-				process_decoder.WaitForExit();
+                process_decoder.StartInfo.UseShellExecute = false;
+                process_decoder.StartInfo.CreateNoWindow = true;
+                process_decoder.StartInfo.RedirectStandardOutput = true;
+                process_decoder.StartInfo.Arguments = String.Format("-s \"{0}\" \"{1}\"", fname_encoded, fname_decoded);
+                process_decoder.Start();
+                process_decoder.WaitForExit();
 
-				if (process_decoder.ExitCode < 0)
-				{
-					// lets try with -g switch
-					process_decoder.StartInfo.Arguments = String.Format("-g \"{0}\" \"{1}\"", fname_encoded, fname_decoded);
-					process_decoder.Start();
-					process_decoder.WaitForExit();
+                if (process_decoder.ExitCode < 0)
+                {
+                    // lets try with -g switch
+                    process_decoder.StartInfo.Arguments = String.Format("-g \"{0}\" \"{1}\"", fname_encoded, fname_decoded);
+                    process_decoder.Start();
+                    process_decoder.WaitForExit();
 
-					if (process_decoder.ExitCode < 0)
-					{
-						// guess this file is not encrypted
-						fname_decoded = fname_encoded;
-					}
-				}
+                    if (process_decoder.ExitCode < 0)
+                    {
+                        // guess this file is not encrypted
+                        fname_decoded = fname_encoded;
+                    }
+                }
 
-				try
-				{
-					decoder_output = process_decoder.StandardOutput.ReadToEnd();
-				}
-				catch
-				{
-				}
+                try
+                {
+                    decoder_output = process_decoder.StandardOutput.ReadToEnd();
+                }
+                catch
+                {
+                }
 
-				return new BinaryReader(File.OpenRead (fname_decoded), enc);
-			}
-			catch (Exception ex)
-			{
-				throw new ApplicationException (
-					String.Format("Error decoding '{0}':\n\n{1}", fname_encoded, decoder_output), ex);
-			}
-			finally
-			{
-				process_decoder.Dispose();
-			}
-		}
+                return new BinaryReader(File.OpenRead(fname_decoded), enc);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(String.Format("Error decoding '{0}':\n\n{1}", fname_encoded, decoder_output), ex);
+            }
+            finally
+            {
+                process_decoder.Dispose();
+            }
+        }
 
-		public static void Encrypt (string fname)
-		{
+        public static void Encrypt(string fname)
+        {
             if (String.IsNullOrEmpty(Program.config.LineAge_EncryptParameters))
-				return;
+                return;
 
-			Process process_encoder = new Process();
-			string encoder_output = "";
+            Process process_encoder = new Process();
+            string encoder_output = "";
 
-			string fname_encoded = Path.Combine(Program.config.LineAgeDirectory, fname);
+            string fname_encoded = Path.Combine(Program.config.LineAgeDirectory, fname);
             string fname_decoded = Path.ChangeExtension(fname_encoded, "tmp");
 
-			try
-			{
-				File.Delete(fname_decoded);
-				File.Move(fname_encoded, fname_decoded);
+            try
+            {
+                File.Delete(fname_decoded);
+                File.Move(fname_encoded, fname_decoded);
 
                 process_encoder.StartInfo.FileName = Path.Combine(LmUtils.GlobalUtilities.GetStartDirectory(false), @"l2encdec\l2encdec.exe");
-				process_encoder.StartInfo.UseShellExecute = false;
-				process_encoder.StartInfo.CreateNoWindow = true;
-				process_encoder.StartInfo.RedirectStandardOutput = true;
-				process_encoder.StartInfo.Arguments = String.Format("{0} \"{1}\" \"{2}\"", Program.config.LineAge_EncryptParameters, fname_decoded, fname_encoded);
-				process_encoder.Start();
-				process_encoder.WaitForExit();
+                process_encoder.StartInfo.UseShellExecute = false;
+                process_encoder.StartInfo.CreateNoWindow = true;
+                process_encoder.StartInfo.RedirectStandardOutput = true;
+                process_encoder.StartInfo.Arguments = String.Format("{0} \"{1}\" \"{2}\"", Program.config.LineAge_EncryptParameters, fname_decoded, fname_encoded);
+                process_encoder.Start();
+                process_encoder.WaitForExit();
 
-				try
-				{
-					encoder_output = process_encoder.StandardOutput.ReadToEnd();
-				}
-				catch
-				{
-				}
+                try
+                {
+                    encoder_output = process_encoder.StandardOutput.ReadToEnd();
+                }
+                catch
+                {
+                }
 
-				File.Delete(fname_decoded);
-			}
-			catch (Exception ex)
-			{
-				try
-				{
-					File.Move(fname_decoded, fname_encoded);
-				}
-				catch
-				{
-				}
+                File.Delete(fname_decoded);
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    File.Move(fname_decoded, fname_encoded);
+                }
+                catch
+                {
+                }
 
-				throw new ApplicationException (
-					String.Format("Error encoding '{0}':\n\n{1}", fname_decoded, encoder_output), ex);
-			}
-			finally
-			{
-				process_encoder.Dispose();
-			}
-		}
+                throw new ApplicationException(String.Format("Error encoding '{0}':\n\n{1}", fname_decoded, encoder_output), ex);
+            }
+            finally
+            {
+                process_encoder.Dispose();
+            }
+        }
 
         public static void SystemPatcher()
         {
@@ -145,7 +143,7 @@ namespace L2DatEncDec.Tools
                     back_flg = true;
                 else
                     Directory.CreateDirectory(backup_folder);
-                
+
                 // Create Temp Folder
                 string temp_folder = Path.Combine(Program.config.LineAgeDirectory, "tmp");
                 if (Directory.Exists(temp_folder))
@@ -168,7 +166,7 @@ namespace L2DatEncDec.Tools
                 {
                     string current_file = Path.GetFileName(file.FullName);
                     string backup_file = Path.Combine(backup_folder, current_file);
-                    
+
                     // Check Header
                     BinaryReader f = new BinaryReader(File.OpenRead(file.FullName), Encoding.Default);
                     string FileHeader = "";
@@ -188,15 +186,13 @@ namespace L2DatEncDec.Tools
                             File.Copy(file.FullName, backup_file, true);
 
                         // Decrypt
-                        process_patcher.StartInfo.Arguments = String.Format("-s \"{0}\" \"{1}\"",
-                                                current_file, Path.ChangeExtension(current_file, ".dec"));
+                        process_patcher.StartInfo.Arguments = String.Format("-s \"{0}\" \"{1}\"", current_file, Path.ChangeExtension(current_file, ".dec"));
                         process_patcher.Start();
                         process_patcher.WaitForExit();
                         if (process_patcher.ExitCode < 0)
                         {
                             // lets try with -g switch
-                            process_patcher.StartInfo.Arguments = String.Format("-g \"{0}\" \"{1}\"",
-                                                    current_file, Path.ChangeExtension(current_file, ".dec"));
+                            process_patcher.StartInfo.Arguments = String.Format("-g \"{0}\" \"{1}\"", current_file, Path.ChangeExtension(current_file, ".dec"));
                             process_patcher.Start();
                             process_patcher.WaitForExit();
                             if (process_patcher.ExitCode < 0)
@@ -207,9 +203,7 @@ namespace L2DatEncDec.Tools
                         }
 
                         // Encrypt
-                        process_patcher.StartInfo.Arguments = String.Format("{0} \"{1}\" \"{2}\"",
-                                                Program.config.LineAge_EncryptParameters,
-                                                Path.ChangeExtension(current_file, ".dec"), current_file);
+                        process_patcher.StartInfo.Arguments = String.Format("{0} \"{1}\" \"{2}\"", Program.config.LineAge_EncryptParameters, Path.ChangeExtension(current_file, ".dec"), current_file);
                         process_patcher.Start();
                         process_patcher.WaitForExit();
                         if (process_patcher.ExitCode < 0)
@@ -250,7 +244,7 @@ namespace L2DatEncDec.Tools
                         File.Copy(fname_loader, Path.Combine(Program.config.LineAgeDirectory, Path.GetFileName(fname_loader)), true);
                     }
                 }
-                
+
                 // Cleanup Files
                 File.Delete(Path.Combine(Program.config.LineAgeDirectory, "l2encdec.exe"));
                 File.Delete(Path.Combine(Program.config.LineAgeDirectory, "libgmp-3.dll"));
@@ -259,8 +253,7 @@ namespace L2DatEncDec.Tools
             }
             catch (Exception ex)
             {
-                throw new ApplicationException(
-                    String.Format("Error patching.\n\n{0}", patcher_output), ex);
+                throw new ApplicationException(String.Format("Error patching.\n\n{0}", patcher_output), ex);
             }
             finally
             {
@@ -274,7 +267,7 @@ namespace L2DatEncDec.Tools
     #region L2DatTool
 
     class L2DatTool
-	{
+    {
         public const char DELIMITER = '|';
 
         public static int ReadByteCount(BinaryReader f)
@@ -290,68 +283,68 @@ namespace L2DatEncDec.Tools
         }
 
         public static string ReadString(BinaryReader f)
-		{
+        {
             int len = f.ReadByte();
             if (len == 0)
-				return "";
+                return "";
             if (len >= 192)
                 f.BaseStream.Seek(1, SeekOrigin.Current);
             long start_pos = f.BaseStream.Position;
-			long end_pos = start_pos;
+            long end_pos = start_pos;
 
-			Encoding enc = Encoding.Default;
-			byte one_ch_len = 1;
+            Encoding enc = Encoding.Default;
+            byte one_ch_len = 1;
 
-			if (len >= 128)
-			{
-				// unicode string
-				enc = Encoding.Unicode;
-				one_ch_len = 2;
+            if (len >= 128)
+            {
+                // unicode string
+                enc = Encoding.Unicode;
+                one_ch_len = 2;
 
-				while (true)
-				{
-					short ch = f.ReadInt16();
-					if (ch == 0)
-					{
-						end_pos = f.BaseStream.Position;
-						break;
-					}
-				}
-			}
-			else
-			{
-				if (char.IsControl((char) f.PeekChar()))
-				{
-					f.BaseStream.Seek(1, SeekOrigin.Current);
-					start_pos = f.BaseStream.Position;
-				}
+                while (true)
+                {
+                    short ch = f.ReadInt16();
+                    if (ch == 0)
+                    {
+                        end_pos = f.BaseStream.Position;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                if (char.IsControl((char)f.PeekChar()))
+                {
+                    f.BaseStream.Seek(1, SeekOrigin.Current);
+                    start_pos = f.BaseStream.Position;
+                }
 
-				// ansi string
-				while (true)
-				{
-					byte ch = f.ReadByte();
-					if (ch == 0)
-					{
-						end_pos = f.BaseStream.Position;
-						break;
-					}
-				}
-			}
+                // ansi string
+                while (true)
+                {
+                    byte ch = f.ReadByte();
+                    if (ch == 0)
+                    {
+                        end_pos = f.BaseStream.Position;
+                        break;
+                    }
+                }
+            }
 
-			long real_len = end_pos - start_pos - one_ch_len;
+            long real_len = end_pos - start_pos - one_ch_len;
 
-			f.BaseStream.Seek (start_pos, SeekOrigin.Begin);
+            f.BaseStream.Seek(start_pos, SeekOrigin.Begin);
 
-			byte[] buf = f.ReadBytes((int) real_len);
-			string res = enc.GetString(buf);
+            byte[] buf = f.ReadBytes((int)real_len);
+            string res = enc.GetString(buf);
 
-			f.BaseStream.Seek(one_ch_len, SeekOrigin.Current);
+            f.BaseStream.Seek(one_ch_len, SeekOrigin.Current);
 
-			return res;
-		}
+            return res;
+        }
 
-		public static string ReadStringSimple_UnicodeInt32Length(BinaryReader f)
-		{
+        public static string ReadStringSimple_UnicodeInt32Length(BinaryReader f)
+        {
             long SavePos = f.BaseStream.Position;
             int len = f.ReadInt32();
             if (len > 10000)
@@ -363,11 +356,11 @@ namespace L2DatEncDec.Tools
             if (len == 0)
                 return "";
 
-			byte[] buf = new byte[len];
-			f.Read(buf, 0, (int) len);
+            byte[] buf = new byte[len];
+            f.Read(buf, 0, (int)len);
 
-			return Encoding.Unicode.GetString(buf);
-		}
+            return Encoding.Unicode.GetString(buf);
+        }
 
         public static void WriteByteCount(BinaryWriter f, int len)
         {
@@ -385,64 +378,64 @@ namespace L2DatEncDec.Tools
         }
 
         public static void WriteString(BinaryWriter f, string str)
-		{
-			if (!String.IsNullOrEmpty (str))
-			{
-				bool is_unicode = false;
-				for (int k = 0; k < str.Length; k++)
-				{
-					int code = (int) str[k];
-					if (code > 255 && code != 1081)
-					{
-						is_unicode = true;
-						break;
-					}
-				}
+        {
+            if (!String.IsNullOrEmpty(str))
+            {
+                bool is_unicode = false;
+                for (int k = 0; k < str.Length; k++)
+                {
+                    int code = (int)str[k];
+                    if (code > 255 && code != 1081)
+                    {
+                        is_unicode = true;
+                        break;
+                    }
+                }
 
-				int len = str.Length + 1;
-				if (len >= 64)
-				{
-					int len_part2 = len / 64;
-					int len_part1 = len - ((len_part2 - 1) * 64);
+                int len = str.Length + 1;
+                if (len >= 64)
+                {
+                    int len_part2 = len / 64;
+                    int len_part1 = len - ((len_part2 - 1) * 64);
 
-					// set highest bit cause to indicate it is Unicode
-					if (is_unicode)
-						len_part1 += 128;
+                    // set highest bit cause to indicate it is Unicode
+                    if (is_unicode)
+                        len_part1 += 128;
 
-					f.Write((byte) len_part1);
-					f.Write((byte) len_part2);
-				}
-				else
-				{
-					// set highest bit cause to indicate it is Unicode
-					if (is_unicode)
-						len += 128;
+                    f.Write((byte)len_part1);
+                    f.Write((byte)len_part2);
+                }
+                else
+                {
+                    // set highest bit cause to indicate it is Unicode
+                    if (is_unicode)
+                        len += 128;
 
-					f.Write((byte) len);
-				}
+                    f.Write((byte)len);
+                }
 
-				if (is_unicode)
-				{
-					f.Write(Encoding.Unicode.GetBytes(str));
-					f.Write((byte) 0x00);
-				}
-				else
-				{
-					f.Write(Encoding.Default.GetBytes(str));
-				}
-			}
+                if (is_unicode)
+                {
+                    f.Write(Encoding.Unicode.GetBytes(str));
+                    f.Write((byte)0x00);
+                }
+                else
+                {
+                    f.Write(Encoding.Default.GetBytes(str));
+                }
+            }
 
-			f.Write((byte) 0x00);
-		}
+            f.Write((byte)0x00);
+        }
 
-		public static void WriteStringSimple_UnicodeInt32Length(BinaryWriter f, string str)
-		{
+        public static void WriteStringSimple_UnicodeInt32Length(BinaryWriter f, string str)
+        {
 
-            f.Write((UInt32)(str.Length*2));
+            f.Write((UInt32)(str.Length * 2));
 
-			if (str.Length > 0)
-				f.Write(Encoding.Unicode.GetBytes(str));
-		}
+            if (str.Length > 0)
+                f.Write(Encoding.Unicode.GetBytes(str));
+        }
 
         public static void Debug_ByteDump(BinaryReader f, int cnt)
         {
@@ -488,8 +481,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cnt\t" +
-                   prefix + "_text\t";
+            return prefix + "_cnt\t" + prefix + "_text\t";
         }
 
         public string getText()
@@ -546,8 +538,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cntr\t" +
-                   prefix + "_text\t";
+            return prefix + "_cntr\t" + prefix + "_text\t";
         }
 
         public string getText()
@@ -616,8 +607,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cnt\t" +
-                   prefix + "_text\t";
+            return prefix + "_cnt\t" + prefix + "_text\t";
         }
 
         public string getText()
@@ -682,9 +672,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cnt\t" +
-                   prefix + "_text1\t" +
-                   prefix + "_value1\t";
+            return prefix + "_cnt\t" + prefix + "_text1\t" + prefix + "_value1\t";
         }
 
         public string getText()
@@ -762,10 +750,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cnt1\t" + 
-                   prefix + "_text1\t" +
-                   prefix + "_cnt2\t" +
-                   prefix + "_text2\t";
+            return prefix + "_cnt1\t" + prefix + "_text1\t" + prefix + "_cnt2\t" + prefix + "_text2\t";
         }
 
         public string getText()
@@ -784,7 +769,7 @@ namespace L2DatEncDec.Tools
             return res;
         }
 
-        public void setText(string [] value)
+        public void setText(string[] value)
         {
             cnt1 = Convert.ToInt32(value[0]);
             text1 = value[1];
@@ -847,12 +832,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cnt1\t" +
-                   prefix + "_text1\t" +
-                   prefix + "_value1\t" +
-                   prefix + "_unknown1\t" +
-                   prefix + "_cnt2\t" +
-                   prefix + "_text2\t";
+            return prefix + "_cnt1\t" + prefix + "_text1\t" + prefix + "_value1\t" + prefix + "_unknown1\t" + prefix + "_cnt2\t" + prefix + "_text2\t";
         }
 
         public string getText()
@@ -959,12 +939,7 @@ namespace L2DatEncDec.Tools
 
         public string getHeaderText(string prefix)
         {
-            return prefix + "_cnt1\t" +
-                   prefix + "_text1\t" +
-                   prefix + "_unknown1\t" +
-                   prefix + "_cnt2\t" +
-                   prefix + "_text2\t" +
-                   prefix + "_text3\t";
+            return prefix + "_cnt1\t" + prefix + "_text1\t" + prefix + "_unknown1\t" + prefix + "_cnt2\t" + prefix + "_text2\t" + prefix + "_text3\t";
         }
 
         public string getText()

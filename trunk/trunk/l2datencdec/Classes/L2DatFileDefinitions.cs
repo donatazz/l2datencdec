@@ -22,8 +22,7 @@ namespace L2DatEncDec.Definitions
 
         public L2DatDefinition()
         {
-            members = this.GetType().GetMembers(
-                           BindingFlags.Public | BindingFlags.Instance);
+            members = this.GetType().GetMembers(BindingFlags.Public | BindingFlags.Instance);
         }
 
         public MemberInfo[] getMembers()
@@ -42,11 +41,7 @@ namespace L2DatEncDec.Definitions
                     if (FType.FieldType.FullName.StartsWith("L2DatEncDec.Tools."))
                     {
                         Type t = Type.GetType(FType.FieldType.FullName);
-                        object instance = t.InvokeMember(null,
-                                                    BindingFlags.CreateInstance,
-                                                    null,
-                                                    null,
-                                                    new object[] { });
+                        object instance = t.InvokeMember(null, BindingFlags.CreateInstance, null, null, new object[] { });
                         if (instance != null)
                             FType.SetValue(this, instance);
                     }
@@ -102,7 +97,7 @@ namespace L2DatEncDec.Definitions
 
     public class ActionNameInfo : L2DatDefinition
     {
-       /*
+        /*
         Info from l2asm-disasm
         */
         public UINT tag;
@@ -505,7 +500,7 @@ namespace L2DatEncDec.Definitions
 
     public class CommandNameInfo : L2DatDefinition
     {
-       /*
+        /*
         Info from l2asm-disasm
         */
         public UINT nbr;
@@ -831,7 +826,7 @@ namespace L2DatEncDec.Definitions
     #region ItemName
 
     public class ItemNameInfo : L2DatDefinition
-	{
+    {
         /*
         Info from l2asm-disasm
         */
@@ -990,7 +985,7 @@ namespace L2DatEncDec.Definitions
         public UINT var_of_level;
         public ASCF effect1_desc;
         public ASCF effect2_desc;
-        public ASCF effect3_desc; 
+        public ASCF effect3_desc;
     }
 
     #endregion

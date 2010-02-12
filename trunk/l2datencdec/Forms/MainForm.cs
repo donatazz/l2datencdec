@@ -70,11 +70,11 @@ namespace L2DatEncDec
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-			this.Visible = false;
-			this.SuspendLayout();
+            this.Visible = false;
+            this.SuspendLayout();
 
-			try
-			{
+            try
+            {
                 this.Config_Load();
                 this.Forms_Init(true);
                 this.Forms_Update();
@@ -122,8 +122,7 @@ namespace L2DatEncDec
         private void Forms_Init(Boolean isReload)
         {
             // Set Form Title
-            this.Text = Application.ProductName + " Ver." + Application.ProductVersion.Substring(0, 6) +
-                           " - " + Program.config.LineAgeDirectory;
+            this.Text = Application.ProductName + " Ver." + Application.ProductVersion.Substring(0, 6) + " - " + Program.config.LineAgeDirectory;
 
             if (isReload)
             {
@@ -189,11 +188,7 @@ namespace L2DatEncDec
         private void DatInfo_init()
         {
             Type t = Type.GetType("L2DatEncDec.Parsers." + this.selectedFileType.ToString());
-            object instance = t.InvokeMember(null,
-                                        BindingFlags.CreateInstance,
-                                        null,
-                                        null,
-                                        new object[] { });
+            object instance = t.InvokeMember(null, BindingFlags.CreateInstance, null, null, new object[]{});
             if (instance != null)
                 DatInfo = (L2DatParser)instance;
             else
@@ -216,8 +211,7 @@ namespace L2DatEncDec
                 this.DatInfo_init();
                 if (!File.Exists(Path.Combine(Program.config.LineAgeDirectory, this.selectedComboName)))
                 {
-                    this.StatusLabel.Text = Program.language.getMessage(MsgList.ERROR) +
-                                                String.Format(Program.language.getMessage(MsgList.FileNotFound));
+                    this.StatusLabel.Text = Program.language.getMessage(MsgList.ERROR) + String.Format(Program.language.getMessage(MsgList.FileNotFound));
                     return;
                 }
                 BinaryReader f = L2EncDec.Decrypt(this.selectedComboName, Encoding.Default);
@@ -243,8 +237,7 @@ namespace L2DatEncDec
                 this.StatusProgress.Visible = false;
                 this.Forms_Update();
             }
-            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) +
-                                        String.Format(Program.language.getMessage(MsgList.CompleteLoad), this.DatDatas.Count);
+            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) + String.Format(Program.language.getMessage(MsgList.CompleteLoad), this.DatDatas.Count);
         }
 
         #endregion
@@ -261,8 +254,7 @@ namespace L2DatEncDec
 
                 if (this.DatDatas.Count == 0)
                 {
-                    this.StatusLabel.Text = Program.language.getMessage(MsgList.ERROR) +
-                                                String.Format(Program.language.getMessage(MsgList.DataIsEmpty));
+                    this.StatusLabel.Text = Program.language.getMessage(MsgList.ERROR) + String.Format(Program.language.getMessage(MsgList.DataIsEmpty));
                     return;
                 }
                 string fname = Path.Combine(Program.config.LineAgeDirectory, this.selectedComboName);
@@ -297,8 +289,7 @@ namespace L2DatEncDec
                 this.FileNameCombo.Enabled = true;
                 this.StatusProgress.Visible = false;
             }
-            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) +
-                                        String.Format(Program.language.getMessage(MsgList.CompleteSave), this.DatDatas.Count);
+            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) + String.Format(Program.language.getMessage(MsgList.CompleteSave), this.DatDatas.Count);
         }
 
         #endregion
@@ -485,9 +476,7 @@ namespace L2DatEncDec
             }
             catch (Exception ex)
             {
-                ex = new ApplicationException(
-                    String.Format("Error importing string file (RecNo: {0} FieldName: {1} FieldValue: {2})",
-                                  RecNo, FName, FValue), ex);
+                ex = new ApplicationException(String.Format("Error importing string file (RecNo: {0} FieldName: {1} FieldValue: {2})", RecNo, FName, FValue), ex);
                 Program.log.Add(ex, true);
             }
             finally
@@ -497,8 +486,7 @@ namespace L2DatEncDec
                 this.StatusProgress.Visible = false;
                 this.Forms_Update();
             }
-            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) +
-                                        String.Format(Program.language.getMessage(MsgList.CompleteImp), this.DatDatas.Count);
+            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) + String.Format(Program.language.getMessage(MsgList.CompleteImp), this.DatDatas.Count);
         }
 
         #endregion
@@ -518,8 +506,7 @@ namespace L2DatEncDec
 
                 if (this.DatDatas.Count == 0)
                 {
-                    this.StatusLabel.Text = Program.language.getMessage(MsgList.ERROR) +
-                                                String.Format(Program.language.getMessage(MsgList.DataIsEmpty));
+                    this.StatusLabel.Text = Program.language.getMessage(MsgList.ERROR) + String.Format(Program.language.getMessage(MsgList.DataIsEmpty));
                     return;
                 }
                 this.ExportDialog.InitialDirectory = Application.StartupPath;
@@ -592,7 +579,7 @@ namespace L2DatEncDec
                     this.StatusProgress.Maximum = this.DatDatas.Count;
                     this.StatusProgress.Value = 0;
                     this.StatusProgress.Visible = true;
-                    
+
                     // Write Datas
                     for (int i = 0; i < this.DatDatas.Count; i++)
                     {
@@ -688,9 +675,7 @@ namespace L2DatEncDec
             }
             catch (Exception ex)
             {
-                ex = new ApplicationException(
-                    String.Format("Error exporting string file (RecNo: {0} FieldName: {1})",
-                                  RecNo, FName), ex);
+                ex = new ApplicationException(String.Format("Error exporting string file (RecNo: {0} FieldName: {1})", RecNo, FName), ex);
                 Program.log.Add(ex, true);
             }
             finally
@@ -699,8 +684,7 @@ namespace L2DatEncDec
                 this.FileNameCombo.Enabled = true;
                 this.StatusProgress.Visible = false;
             }
-            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) +
-                                        String.Format(Program.language.getMessage(MsgList.CompleteExp), this.DatDatas.Count);
+            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) + String.Format(Program.language.getMessage(MsgList.CompleteExp), this.DatDatas.Count);
         }
 
         #endregion
@@ -760,8 +744,7 @@ namespace L2DatEncDec
                 this.FileNameCombo.Enabled = true;
                 this.StatusProgress.Visible = false;
             }
-            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) +
-                                        String.Format(Program.language.getMessage(MsgList.CompletePatchSystem));
+            this.StatusLabel.Text = Program.language.getMessage(MsgList.COMPLETE) + String.Format(Program.language.getMessage(MsgList.CompletePatchSystem));
         }
 
         private void MenuIniItems_Click(object sender, EventArgs e)

@@ -474,88 +474,6 @@ namespace L2DatEncDec.Tools
 
     #region L2DatFieldType
 
-    public class FILLER_360
-    {
-        private string cnt;
-
-        public string getHeaderText(string prefix)
-        {
-            return "filler_360\t";
-        }
-
-        public string getText()
-        {
-            return "0";
-        }
-
-        public void setText(string[] value)
-        {
-            cnt = "0";
-        }
-
-        public int getFieldCount()
-        {
-            return 1;
-        }
-
-        public static FILLER_360 Parse(BinaryReader f)
-        {
-            FILLER_360 info = new FILLER_360();
-            for (int i = 0; i < 360; i++ )
-            {
-                f.ReadByte();
-            }
-            info.cnt = "0";
-            return info;
-        }
-
-        public static void Compile(BinaryWriter f, FILLER_360 info)
-        {
-            f.Write("0");
-        }
-    }
-
-    public class FILLER_90
-    {
-        private string cnt;
-
-        public string getHeaderText(string prefix)
-        {
-            return "filler_90\t";
-        }
-
-        public string getText()
-        {
-            return "0";
-        }
-
-        public void setText(string[] value)
-        {
-            cnt = "0";
-        }
-
-        public int getFieldCount()
-        {
-            return 1;
-        }
-
-        public static FILLER_90 Parse(BinaryReader f)
-        {
-            FILLER_90 info = new FILLER_90();
-            for (int i = 0; i < 90; i++)
-            {
-                f.ReadByte();
-            }
-            info.cnt = "0";
-            return info;
-        }
-
-        public static void Compile(BinaryWriter f, FILLER_90 info)
-        {
-            f.Write("0");
-        }
-    }
-
     public class CNTINT_PAIR
     {
         private int cnt;
@@ -1261,6 +1179,70 @@ namespace L2DatEncDec.Tools
             {
                 f.Write(Convert.ToByte(TmpStr[i], 16));
             }
+        }
+    }
+
+    public class FILLER_360
+    {
+        private string text = "";
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+            set
+            {
+                text = value;
+            }
+        }
+
+        public static FILLER_360 Parse(BinaryReader f)
+        {
+            FILLER_360 info = new FILLER_360();
+            for (int i = 0; i < 360; i++ )
+            {
+                f.ReadByte();
+            }
+            info.Text = "0";
+            return info;
+        }
+
+        public static void Compile(BinaryWriter f, FILLER_360 info)
+        {
+            L2DatTool.WriteString(f, info.Text);
+        }
+    }
+
+    public class FILLER_90
+    {
+        private string text = "";
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+            set
+            {
+                text = value;
+            }
+        }
+
+        public static FILLER_90 Parse(BinaryReader f)
+        {
+            FILLER_90 info = new FILLER_90();
+            for (int i = 0; i < 90; i++)
+            {
+                f.ReadByte();
+            }
+            info.Text = "0";
+            return info;
+        }
+
+        public static void Compile(BinaryWriter f, FILLER_90 info)
+        {
+            L2DatTool.WriteString(f, info.Text);
         }
     }
 

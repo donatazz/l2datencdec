@@ -169,10 +169,6 @@ namespace L2DatEncDec.Parsers
                     FType.SetValue(info, f.ReadSingle());
                 else if (FType.FieldType.FullName.EndsWith("Color"))
                     FType.SetValue(info, Color.FromArgb(f.ReadInt32()));
-                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
-                    FType.SetValue(info, FILLER_360.Parse(f));
-                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
-                    FType.SetValue(info, FILLER_90.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                     FType.SetValue(info, CNTINT_PAIR.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("CNTRINT_PAIR"))
@@ -195,6 +191,10 @@ namespace L2DatEncDec.Parsers
                     FType.SetValue(info, HEX.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("UNICODE"))
                     FType.SetValue(info, UNICODE.Parse(f));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                    FType.SetValue(info, FILLER_360.Parse(f));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                    FType.SetValue(info, FILLER_90.Parse(f));
                 else
                 {
                     Console.Out.WriteLine("!!!!! [WARNING] !!!!!");
@@ -278,10 +278,6 @@ namespace L2DatEncDec.Parsers
                     f.Write((Single)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("Color"))
                     f.Write(((Color)FType.GetValue(item)).ToArgb());
-                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
-                    FILLER_360.Compile(f, (FILLER_360)FType.GetValue(item));
-                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
-                    FILLER_90.Compile(f, (FILLER_90)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                     CNTINT_PAIR.Compile(f, (CNTINT_PAIR)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("CNTRINT_PAIR"))
@@ -304,6 +300,10 @@ namespace L2DatEncDec.Parsers
                     HEX.Compile(f, (HEX)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("UNICODE"))
                     UNICODE.Compile(f, (UNICODE)FType.GetValue(item));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                    FILLER_360.Compile(f, (FILLER_360)FType.GetValue(item));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                    FILLER_90.Compile(f, (FILLER_90)FType.GetValue(item));
                 else
                 {
                     Console.Out.WriteLine("!!!!! [WARNING] !!!!!");

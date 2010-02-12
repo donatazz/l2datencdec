@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 
 using System;
 using System.Collections.Generic;
@@ -130,7 +130,7 @@ namespace L2DatEncDec
             }
         }
 
-        [DisplayName("Chronicle Setting"), Description("Setting of Chronicle Version"), Category(Category_Global), DefaultValue(6)]
+        [DisplayName("Chronicle Setting"), Description("Setting of Chronicle Version"), Category(Category_Global), DefaultValue(8)]
         public int ChronicleSetting
         {
             get

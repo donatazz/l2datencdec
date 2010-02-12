@@ -1,4 +1,4 @@
-﻿namespace L2DatEncDec
+namespace L2DatEncDec
 {
     partial class OptionForm
     {
@@ -82,7 +82,7 @@
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(75, 23);
             this.OkBtn.TabIndex = 6;
-            this.OkBtn.Text = "O K";
+            this.OkBtn.Text = "OK";
             this.OkBtn.UseVisualStyleBackColor = true;
             this.OkBtn.Click += new System.EventHandler(this.OkBtn_Click);
             // 

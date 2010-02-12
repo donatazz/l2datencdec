@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 
 using System;
 using System.Collections.Generic;
@@ -737,6 +737,65 @@ namespace L2DatEncDec.Tools
             for (int i = 0; i < info.cnt; i++)
             {
                 f.Write(Convert.ToInt32(TmpStr2[i]));
+            }
+        }
+    }
+
+    public class CNTASCF_PAIR
+    {
+        private int cnt;
+        public int length
+        {
+            get
+            {
+                return cnt;
+            }
+        }
+        private string text; // [cnt]
+
+        public string getHeaderText(string prefix)
+        {
+            return prefix + "_cnt\t" + prefix + "_text\t";
+        }
+        public string getText()
+        {
+            string res = "";
+            res += cnt + "\t";
+            if (cnt > 1)
+                res += "\"" + text + "\"\t";
+            else
+                res += text + "\t";
+            return res;
+        }
+        public void setText(string[] value)
+        {
+            cnt = Convert.ToInt32(value[0]);
+            text = value[1];
+        }
+        public int getFieldCount()
+        {
+            return 2;
+        }
+        public static CNTASCF_PAIR Parse(BinaryReader f)
+        {
+            CNTASCF_PAIR info = new CNTASCF_PAIR();
+            info.cnt = f.ReadInt32();
+            info.text = "";
+            for (int i = 0; i < info.cnt; i++)
+            {
+                info.text += L2DatTool.ReadString(f);
+                if (i < info.cnt - 1)
+                    info.text += L2DatTool.DELIMITER;
+            }
+            return info;
+        }
+        public static void Compile(BinaryWriter f, CNTASCF_PAIR info)
+        {
+            string[] TmpStr = info.text.Split(new char[] { L2DatTool.DELIMITER });
+            f.Write(info.cnt);
+            for (int i = 0; i < info.cnt; i++)
+            {
+                L2DatTool.WriteString(f, TmpStr[i]);
             }
         }
     }

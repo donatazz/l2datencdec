@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <MainForm>
     <LoadBtn>Load</LoadBtn>
@@ -22,7 +22,7 @@
     <ChronicleLabel>ChronicleSetting</ChronicleLabel>
     <Encodinglabel>TextEncoding</Encodinglabel>
     <LanguageLabel>Language</LanguageLabel>
-    <OkBtn>O K</OkBtn>
+    <OkBtn>OK</OkBtn>
     <CancelBtn>Cancel</CancelBtn>
   </OptionForm>
   <IniEditBox>

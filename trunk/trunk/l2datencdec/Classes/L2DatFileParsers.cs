@@ -169,6 +169,10 @@ namespace L2DatEncDec.Parsers
                     FType.SetValue(info, f.ReadSingle());
                 else if (FType.FieldType.FullName.EndsWith("Color"))
                     FType.SetValue(info, Color.FromArgb(f.ReadInt32()));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                    FType.SetValue(info, FILLER_360.Parse(f));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                    FType.SetValue(info, FILLER_90.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                     FType.SetValue(info, CNTINT_PAIR.Parse(f));
                 else if (FType.FieldType.FullName.EndsWith("CNTRINT_PAIR"))
@@ -274,6 +278,10 @@ namespace L2DatEncDec.Parsers
                     f.Write((Single)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("Color"))
                     f.Write(((Color)FType.GetValue(item)).ToArgb());
+                else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                    FILLER_360.Compile(f, (FILLER_360)FType.GetValue(item));
+                else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                    FILLER_90.Compile(f, (FILLER_90)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                     CNTINT_PAIR.Compile(f, (CNTINT_PAIR)FType.GetValue(item));
                 else if (FType.FieldType.FullName.EndsWith("CNTRINT_PAIR"))
@@ -431,7 +439,9 @@ namespace L2DatEncDec.Parsers
     {
         public override L2DatDefinition getDefinition()
         {
-            if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1)
+            if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+                return new ChargrpInfo_GE();
+            else if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1)
                 return new ChargrpInfo_CT1();
             else
                 return new ChargrpInfo();
@@ -457,7 +467,43 @@ namespace L2DatEncDec.Parsers
         public override L2DatDefinition ParseMain(BinaryReader f, int RecNo)
         {
             L2DatDefinition ret = new L2DatDefinition();
-            if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1)
+            if (Program.main_form.selectedDatVersion >= DatVersion.GraciaEpilogue)
+            {
+                ChargrpInfo_GE info = new ChargrpInfo_GE();
+                int count = 300;
+                info.hair_tab = new UNICODE();
+                for (int i = 0; i < count; i++)
+                {
+                    info.hair_tab.Text += L2DatTool.ReadStringSimple_UnicodeInt32Length(f);
+                    if (i < count - 1)
+                        info.hair_tab.Text += ",";
+                }
+                info = (ChargrpInfo_GE)base.ReadFieldValue(f, info, "face_mesh", "cnt_dmg");
+                info.snd_att = new UNICODE();
+                for (int i = 0; i < info.cnt_att; i++)
+                {
+                    info.snd_att.Text += L2DatTool.ReadStringSimple_UnicodeInt32Length(f);
+                    if (i < info.cnt_att - 1)
+                        info.snd_att.Text += ",";
+                }
+                info.snd_def = new UNICODE();
+                for (int i = 0; i < info.cnt_def; i++)
+                {
+                    info.snd_def.Text += L2DatTool.ReadStringSimple_UnicodeInt32Length(f);
+                    if (i < info.cnt_def - 1)
+                        info.snd_def.Text += ",";
+                }
+                info.snd_dmg = new UNICODE();
+                for (int i = 0; i < info.cnt_dmg; i++)
+                {
+                    info.snd_dmg.Text += L2DatTool.ReadStringSimple_UnicodeInt32Length(f);
+                    if (i < info.cnt_dmg - 1)
+                        info.snd_dmg.Text += ",";
+                }
+                info = (ChargrpInfo_GE)base.ReadFieldValue(f, info, "voice_snd_hand", "p2");
+                ret = info;
+            }
+            else if (Program.main_form.selectedDatVersion >= DatVersion.ChaoticThrone1)
             {
                 ChargrpInfo_CT1 info = new ChargrpInfo_CT1();
                 //info = (ChargrpInfo_CT1)base.ReadFieldValue(f, info, "START", "END");

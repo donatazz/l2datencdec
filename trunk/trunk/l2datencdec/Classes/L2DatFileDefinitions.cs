@@ -62,6 +62,10 @@ namespace L2DatEncDec.Definitions
                     {
                         if (FType.FieldType.FullName.EndsWith("Color"))
                             TmpStr = LmUtils.ConvertUtilities.ColorToHtmlColor((Color)FType.GetValue(this));
+                        else if (FType.FieldType.FullName.EndsWith("FILLER_360"))
+                            TmpStr = ((FILLER_360)FType.GetValue(this)).getText();
+                        else if (FType.FieldType.FullName.EndsWith("FILLER_90"))
+                            TmpStr = ((FILLER_90)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("CNTINT_PAIR"))
                             TmpStr = ((CNTINT_PAIR)FType.GetValue(this)).getText();
                         else if (FType.FieldType.FullName.EndsWith("CNTRINT_PAIR"))
@@ -435,6 +439,68 @@ namespace L2DatEncDec.Definitions
     #endregion
 
     #region Chargrp
+
+    public class ChargrpInfo_GE : L2DatDefinition
+    {
+        /*
+        Info from l2asm-disasm
+        */
+        public UNICODE hair_tab; //[300]
+        public CNTTXT_PAIR face_mesh;
+        public CNTTXT_PAIR face_tex;
+        public FILLER_360 filler_361;
+        public CNTTXT_PAIR glove_mesh;
+        public CNTTXT_PAIR glove_tex;
+        public CNTTXT_PAIR glove_mesh_add;
+        public CNTTXT_PAIR glove_tex_add;
+        public CNTRINT_PAIR glove_tab; //UCHAR
+        public CNTRINT_PAIR glove_tab2; //UCHAR
+        public CNTTXT_PAIR upper_mesh;
+        public CNTTXT_PAIR upper_tex;
+        public CNTTXT_PAIR upper_mesh_add;
+        public CNTTXT_PAIR upper_tex_add;
+        public CNTRINT_PAIR upper_tab; //UCHAR
+        public CNTRINT_PAIR upper_tab2; //UCHAR
+        public CNTTXT_PAIR lower_mesh;
+        public CNTTXT_PAIR lower_tex;
+        public CNTTXT_PAIR lower_mesh_add;
+        public CNTTXT_PAIR lower_tex_add;
+        public CNTRINT_PAIR lower_tab; //UCHAR
+        public CNTRINT_PAIR lower_tab2; //UCHAR
+        public CNTTXT_PAIR boot_mesh;
+        public CNTTXT_PAIR boot_tex;
+        public CNTTXT_PAIR boot_mesh_add;
+        public CNTTXT_PAIR boot_tex_add;
+        public CNTRINT_PAIR boot_tab; //UCHAR
+        public CNTRINT_PAIR boot_tab2; //UCHAR
+        public FILLER_90 filler_91;
+        public UNICODE attack_eff;
+        public UINT walkanimframe;
+        public UINT cnt_att;
+        public UINT cnt_def;
+        public UINT cnt_dmg;
+        public UNICODE snd_att; //[cnt_att]
+        public UNICODE snd_def; //[cnt_def]
+        public UNICODE snd_dmg; //[cnt_dmg]
+        public CNTTXT_PAIR voice_snd_hand;
+        public CNTTXT_PAIR voice_snd_1hs;
+        public CNTTXT_PAIR voice_snd_2hs;
+        public CNTTXT_PAIR voice_snd_dual;
+        public CNTTXT_PAIR voice_snd_pole;
+        public CNTTXT_PAIR voice_snd_bow;
+        public CNTTXT_PAIR voice_snd_unknown;
+        public CNTTXT_PAIR voice_snd_fist;
+        public CNTTXT_PAIR voice_snd_unknown2;
+        public CNTTXT_PAIR voice_snd_unknown3;
+        public UINT final1;
+        public UINT final2;
+        public ASCF name;
+        public INT UNK1;
+        public INT UNK2;
+        public INT UNK3;
+        public CNTTXT_PAIR p1;
+        public CNTTXT_PAIR p2;
+    }
 
     public class ChargrpInfo_CT1 : L2DatDefinition
     {
